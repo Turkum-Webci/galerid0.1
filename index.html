@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri D</title>
+    <style>
+        body {
+            background-color: rgb(170, 170, 170);
+        }
+        #konter1 {
+background-color: rgb(43, 43, 43);
+height: 90px;
+        }
+        #konter1 * {
+font-size: 20px;
+font-weight: 900;
+font-family: Segoe UI;
+border:0;
+width: 100px;
+height: 75px;
+border-radius: 20px;
+margin-top: 7px;
+background-color: gray;
+cursor: pointer;
+        }
+        #s2 {
+            width: 100px;
+            height: 100px;
+            display: block;
+        }
+        #ry1 {
+            display: none;
+        }
+        #ra1 {
+            display: none;
+        }
+        #rs1da{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<p id="tmbp1"></p>
+    <div id="konter1">
+    <button onclick="RS1()">Resim Silme</button>
+    <button onclick="RY1()">Resim Yükle</button>
+    <button onclick="RA1()">Resimleri Aç</button>
+    </div>
+    <center>
+    <h2>Galeri D Beta 0.1</h2>
+    </center>
+    <div id="ry1">
+        <input type="file" accept=".png" id="s1">
+        <img id="s2">
+    </div>
+    <div id="ra1"></div>
+    <div id="rs1da">
+        <h2>RESİMLERİN SİLMENİZ ÖNERİLMEZ YİNEDE RESİMLERİ SİLECEKMİSİNİZ</h2>
+        <button onclick="GD1()">Geri Dön (önerilir)</button>
+        <button onclick="LS1()">sil (önerilmez)</button>
+    </div>
+<script>
+    var ry1 = document.getElementById("ry1");
+    var ra1 = document.getElementById("ra1");
+    var rs1 = document.getElementById("rs1da");
+    var s1 = document.getElementById("s1");
+    var s2 = document.getElementById("s2");
+    var yrlist = JSON.parse(localStorage.getItem("yrlist")) || [];
+    function RY1() {
+        ry1.style.display = "block";
+        ra1.style.display = "none";
+        rs1.style.display = "none";
+    }
+    function RS1() {
+        rs1.style.display = "block";
+        ra1.style.display = "none";
+        ry1.style.display = "none";
+    }
+    function RA1() {
+        ra1.style.display = "block";
+        ry1.style.display = "none";
+        rs1.style.display = "none";
+        GR1()
+    }
+function tmb1() {
+    let ts1 = 0;
+    for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+            ts1 += localStorage[key].length * 2;
+        }
+    }
+    let smb1 = (ts1 / 1024 / 1024).toFixed(2);
+    let esmb1 = 10 - smb1;
+    document.getElementById("tmbp1").textContent = "Toplam Boyut: " + smb1 + " MB (" + esmb1 + "MB sonra verileriniz maalesef ki saklayamayacğız)";
+}
+
+            function GR1() {
+ra1.innerHTML = "";
+            yrlist.forEach(function(src) {
+                var img = document.createElement("img");
+                img.src = src;
+                img.style.width = "100px";
+                img.style.height = "100px";
+                img.style.display = "block";
+                ra1.appendChild(img);
+            });
+        }
+
+    s1.addEventListener("change", function(event) {
+var file = event.target.files[0];
+var reader = new FileReader();
+
+reader.onload = function(e) {
+s2.src = e.target.result;
+
+var yor1 = document.createElement("img");
+yor1.src = e.target.result;
+yor1.style.width = "100px";
+yor1.style.height = "100px";
+yor1.style.display = "block";
+ra1.appendChild(yor1);
+
+yrlist.push(e.target.result);
+localStorage.setItem("yrlist", JSON.stringify(yrlist));
+};
+if (file){
+    reader.readAsDataURL(file);
+}
+            tmb1();
+    });
+    function GD1() {
+        ra1.style.display = "block";
+        rs1.style.display = "none";
+    }
+    function LS1(){
+        rs1.style.display = "none";
+        localStorage.removeItem("yor1", JSON.stringify(yor1))
+    }
+
+    tmb1();
+</script>
+</body>
+</html>
